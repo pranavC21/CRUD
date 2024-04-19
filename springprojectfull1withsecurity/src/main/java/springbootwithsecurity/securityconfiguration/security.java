@@ -1,0 +1,27 @@
+package springbootwithsecurity.securityconfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class security{
+
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
+		return security.csrf(csrf -> csrf.disable())
+						.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+ 					.httpBasic(Customizer.withDefaults())
+						
+						.formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+				        .build();
+	}
+}
